@@ -1,0 +1,53 @@
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["black" "red3" "ForestGreen" "yellow3" "blue" "magenta3" "DeepSkyBlue" "gray50"])
+ '(custom-enabled-themes (quote (wombat))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+
+;; load emacs 24's package system. Add MELPA repository.
+(when (>= emacs-major-version 24)
+  (require 'package)
+  (add-to-list
+   'package-archives
+   ;; '("melpa" . "http://stable.melpa.org/packages/") ; many packages won't show if using stable
+   '("melpa" . "http://melpa.milkbox.net/packages/")
+   t))
+
+
+
+(add-to-list 'load-path "/home/user/emacs_packages/neotree")
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
+(add-hook 'after-init-hook 'global-company-mode)
+(add-hook 'after-init-hook 'company-mode)
+
+
+(setq projectile-completion-system 'ivy)
+(setq projectile-enable-caching t)
+(setq company-idle-delay 0)
+(setq company-minimum-prefix-length 2)
+
+
+(add-hook 'c++-mode-hook 'irony-mode)
+(add-hook 'c-mode-hook 'irony-mode)
+(add-hook 'objc-mode-hook 'irony-mode)
+
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+
+(setq company-idle-delay 0)
+(setq company-minimum-prefix-length 2)
+
+(eval-after-load 'company
+  '(add-to-list 'company-backends 'company-irony))
