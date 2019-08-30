@@ -25,29 +25,28 @@
    '("melpa" . "http://melpa.milkbox.net/packages/")
    t))
 
-
-
 (add-to-list 'load-path "/home/user/emacs_packages/neotree")
 (require 'neotree)
 (global-set-key [f8] 'neotree-toggle)
 (add-hook 'after-init-hook 'global-company-mode)
-(add-hook 'after-init-hook 'company-mode)
-
 
 (setq projectile-completion-system 'ivy)
 (setq projectile-enable-caching t)
 (setq company-idle-delay 0)
 (setq company-minimum-prefix-length 2)
 
+(add-hook 'c++-mode-hook 'company-mode)
+(add-hook 'c-mode-hook 'company-mode)
 
-(add-hook 'c++-mode-hook 'irony-mode)
-(add-hook 'c-mode-hook 'irony-mode)
-(add-hook 'objc-mode-hook 'irony-mode)
+(require 'package)
+(package-initialize) ;; Isn't required for Emacs >= 27.x.x
+(require 'rtags)
 
-(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-
-(setq company-idle-delay 0)
-(setq company-minimum-prefix-length 2)
-
+(setq rtags-completions-enabled t)
 (eval-after-load 'company
-  '(add-to-list 'company-backends 'company-irony))
+  '(add-to-list
+    'company-backends 'company-rtags))
+
+(setq rtags-autostart-diagnostics t)
+(rtags-enable-standard-keybindings)
+(rtags-enable-standard-keybindings c-mode-base-map "\C-xr")
